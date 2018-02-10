@@ -56,11 +56,11 @@
 			   <a ng-class="{selected:selector.completed == undefined}" href="#/">所有计划</a>
 			</li>
 			<li>
-			   <a ng-class="{selected:selector.completed == false}"  href="#/active">当前计划</a>
+			   <a ng-class="{selected:selector.completed == false}" href="#/active">当前计划</a>
 			</li>
 			<li>
-			   <a ng-class="{selected:selector.completed == true}"  href="#/completed">已完成计划</a>
-
+			   <a ng-class="{selected:selector.completed == true}" href="#/completed">已完成计划</a>
+			</li>
 		 </ul>
 		 <!-- 当页面没有已完成计划的时候按钮应该隐藏 -->
 		 <button class="clear-completed" ng-click="clear()" ng-show="existCompleted()">清空已完成</button>
