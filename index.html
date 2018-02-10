@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>备忘录</title>
+   <link rel="stylesheet" href="./node_modules/todomvc-common/base.css">
+   <link rel="stylesheet" href="./node_modules/todomvc-app-css/index.css">
+   <!-- 如果不需要,可以删除层叠样式表 -->
+   <link rel="stylesheet" href="css/app.css">
+</head>
+<body ng-app="myTodo">
+   <section class="todoapp" ng-controller="mainController">
+	  <header class="header">
+		 <h1>备忘录</h1>
+		 <!-- 添加计划的文本框 -->
+		 <!-- 添加一个form标签用来实现回车添加计划的功能 -->
+		 <form ng-submit="add()">
+			<!-- 从这里取到$scope.text的内容 -->
+			<input class="new-todo" placeholder="需要去完成什么计划?" autofocus ng-model="text">
+		 </form>
+	  </header>
+	  <!-- 这个应该默认隐藏,当有计划时显示 -->
+	  <section class="main">
+		 <!-- 全选为已完成或未完成 -->
+		 <input id="toggle-all" class="toggle-all" type="checkbox" ng-click="toggleAll()">
+		 <label for="toggle-all">标记所有为完成</label>
+		 <ul class="todo-list">
+			<!-- 这些都是为了显示列表项的结构 -->
+			<!-- 列表项应在编辑状态的时候获得`editing`类名,当在标记完成时获得'completed'类名 -->
+			<!-- 循环$scope.todos,每个项都创建一组li | ng-class是否获得completed类名由todo.completed状态控制 | 判断id是否匹配 -->
+			<li ng-repeat="todo in todos | filter: selector: equalCompare" ng-class="{completed: todo.completed,editing:todo.id===currentEditingId}" data-id="{{todo.id}}">
+			   <!-- 视图 -->
+			   <div class="view">
+				  <!-- 每个选项前面的小圆点,点击切换todo.completed为false或true -->
+				  <input class="toggle" type="checkbox" ng-model="todo.completed">
+				  <!-- 计划内容 --> <!-- 双击执行函数,将被点击的计划的id传进去 -->
+				  <label ng-dblclick="editing(todo.id)">{{todo.text}}</label>
+				  <!-- 计划后面的叉号,用来删除计划 -->
+				  <button class="destroy" ng-click="remove(todo.id)"></button>
+			   </div>
+			   <!-- 编辑状态下的输入框 -->
+			   <form ng-submit="save()">
+				  <input class="edit" ng-model="todo.text" ng-blur="save()">
+			   </form>
+			</li>
+		 </ul>
+	  </section>
+	  <!-- 这个页脚没有计划时应该隐藏,当有计划时才显示 -->
+	  <footer class="footer">
+		 <!-- 默认有0项计划需要去做 -->
+		 <span class="todo-count"><strong>{{todos.length}}</strong> 项需要去做</span>
+		 <!-- 如果你不想要实现路由功能可以删除下面的模块 -->
+		 <ul class="filters">
+			<li>
+			   <a ng-class="{selected:selector.completed == undefined}" href="#/">所有计划</a>
+			</li>
+			<li>
+			   <a ng-class="{selected:selector.completed == false}"  href="#/active">当前计划</a>
+			</li>
+			<li>
+			   <a ng-class="{selected:selector.completed == true}"  href="#/completed">已完成计划</a>
+
+		 </ul>
+		 <!-- 当页面没有已完成计划的时候按钮应该隐藏 -->
+		 <button class="clear-completed" ng-click="clear()" ng-show="existCompleted()">清空已完成</button>
+	  </footer>
+   </section>
+   <footer class="info">
+	  <p>双击去编辑一个计划</p>
+	  <!-- 删除页面下面的连接 -->
+	  <p>模板由<a href="http://sindresorhus.com">Sindre Sorhus</a>提供</p>
+	  <!-- 将下面改为你的名字和链接路径 -->
+	  <p>由<a href="https://github.com/wangwangwanglichao">王立超</a>创建</p>
+	  <p><a href="http://todomvc.com">TodoMVC</a>的一部分</p>
+   </footer>
+   <!-- 以下这些脚本不要删除 -->
+   <script src="./node_modules/todomvc-common/base.js"></script>
+   <script src="./node_modules/angular/angular.js"></script>
+   <script src="./js/app.js"></script>
+</body>
+</html>
